@@ -1,6 +1,11 @@
 # Image-Manager
 Service for image managing (download, save, serve, delete)
 
+## ToDo
+[x] Main processing pipeline 
+[] Check config at start time (reduce costs in runtime)
+[] Check errors resistance
+
 ## Start params
 Сonfig 
 ```javascript
