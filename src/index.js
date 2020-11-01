@@ -3,21 +3,21 @@ const fastify = require('fastify')({
     logger: true,
 });
 require('./check-config');
-const processing = require('./processing');
+
+const queue = require('./queue');
+queue.onComplete((job, result) => {
+    console.log('========');
+    fastify.log.info({job, result});
+});
 
 // Declare a route
 fastify.get('/', async function(request, reply) {
     // Test processing
-    const image = 'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg';
-    try {
-        console.log('1');
-        await processing(image);
-        console.log('2');
-    } catch (err) {
-        this.log.error(err);
-        throw new Error(err);
+    const imageUrl = 'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg';
+    for (let i = 0; i < 100; i++) {
+        queue.add({imageUrl, meta: 'test meta'});
     }
-    reply.send({hello: 'world!'});
+    return 'ok';
 });
 
 // Run the server!

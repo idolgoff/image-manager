@@ -8,4 +8,8 @@ module.exports = {
             width: 100,
         },
     }],
+    redis: {
+        host: 'localhost',
+        port: 32768,
+    },
 };

@@ -6,11 +6,16 @@ const {v4: uuidv4} = require('uuid');
 
 const config = require('../config');
 
-module.exports = async (image) => {
+module.exports = async (data) => {
+    if (typeof data !== 'object' || !data.imageUrl) {
+        return Promise.reject(new Error('Wrong job params'));
+    }
+
+    const {imageUrl, meta = ''} = data;
     const {sets, mainDir} = config;
 
     // Download file
-    const file = await download(image);
+    const file = await download(imageUrl);
     const filename = `${uuidv4()}.jpg`;
 
     return Promise.all(sets.map(async ({size, subPath}) => {
@@ -19,6 +24,9 @@ module.exports = async (image) => {
         const path = `${mainDir}/${subPath}/${filename}`;
 
         // Store
-        return store(processedJpeg, path);
+        await store(processedJpeg, path);
+
+        // Return object
+        return {path, filename, meta};
     }));
 };
