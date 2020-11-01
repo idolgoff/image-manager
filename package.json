@@ -3,6 +3,7 @@
     "start": "nodemon ./src/index.js"
   },
   "dependencies": {
+    "bull": "^3.18.1",
     "fastify": "^3.7.0",
     "node-fetch": "^2.6.1",
     "sharp": "^0.26.2",
