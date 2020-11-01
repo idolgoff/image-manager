@@ -6,7 +6,7 @@ Service for image managing (download, save, serve, delete)
 ```javascript
 {
   mainDir: [path1, path2, ...],
-  [{
+  sets: [{
     type: 'thumb' | 'bigImage' | ...whatever,
     subPath: string, // path + subpath
     size?: { width?: number, height?: number }, // if only one side set then image size will be processed proportionately
