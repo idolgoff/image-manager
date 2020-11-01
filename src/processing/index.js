@@ -13,17 +13,12 @@ module.exports = async (image) => {
     const file = await download(image);
     const filename = `${uuidv4()}.jpg`;
 
-    sets.forEach(async ({size, subPath}) => {
+    return Promise.all(sets.map(async ({size, subPath}) => {
         // Process
         const processedJpeg = await manipulate(file, size);
         const path = `${mainDir}/${subPath}/${filename}`;
 
         // Store
-        try {
-            await store(processedJpeg, path);
-            console.log(path);
-        } catch (err) {
-            console.error(err);
-        }
-    });
+        return store(processedJpeg, path);
+    }));
 };
