@@ -2,7 +2,7 @@
 const fastify = require('fastify')({
     logger: true,
 });
-const process = require('./process');o
+const process = require('./process');
 
 // Declare a route
 fastify.get('/', (request, reply) => {
