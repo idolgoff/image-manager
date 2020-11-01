@@ -5,8 +5,9 @@ Service for image managing (download, save, serve, delete)
 - [x] Main processing pipeline
 - [x] Check config at start time (reduce costs at runtime)
 - [ ] Check errors resistance
-- [ ] Add queue management
+- [x] Add queue management
 - [ ] Add queue UI
+- [ ] Add tune settings (concurency, rateLimit and so on)
 
 ## Start params
 Сonfig 
