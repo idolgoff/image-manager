@@ -2,9 +2,11 @@
 Service for image managing (download, save, serve, delete)
 
 ## ToDo
-[x] Main processing pipeline 
-[] Check config at start time (reduce costs in runtime)
-[] Check errors resistance
+- [x] Main processing pipeline 
+- [ ] Check config at start time (reduce costs in runtime)
+- [ ] Check errors resistance
+- [ ] Add queue management
+- [ ] Add queue UI
 
 ## Start params
 Сonfig 
