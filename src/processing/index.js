@@ -1,8 +1,8 @@
+const {v4: uuidv4} = require('uuid');
+
 const download = require('./download');
 const manipulate = require('./manipulate');
 const store = require('./store');
-
-const {v4: uuidv4} = require('uuid');
 
 const config = require('../config');
 
@@ -11,7 +11,7 @@ module.exports = async (data) => {
         return Promise.reject(new Error('Wrong job params'));
     }
 
-    const {imageUrl, meta = ''} = data;
+    const {imageUrl} = data;
     const {sets, mainDir} = config;
 
     // Download file
@@ -27,6 +27,6 @@ module.exports = async (data) => {
         await store(processedJpeg, path);
 
         // Return object
-        return {path, filename, meta};
+        return {...data, path, filename};
     }));
 };
