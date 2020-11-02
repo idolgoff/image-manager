@@ -30,8 +30,9 @@ Image manager is used for download, process and store images with given urls. It
 
 1. Input params format (JSON)
 ```
-{data: {imageUrl, meta}}
+{data: {imageUrl, meta, webHook}}
 ```
+webHook - POST api endpoint getting {...data, ...processingResult}
 
 2. Queue
 Use api endpoint
