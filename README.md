@@ -28,9 +28,9 @@ Image manager is used for download, process and store images with given urls. It
 
 **prepare data -> 2) queue -> 3) processing (download -> manipulate -> store) -> 4) callback**
 
-1. Input params format (FormData)
+1. Input params format (JSON)
 ```
-{data: {imgUrls, meta}, callback: (err, data) => {}}
+{data: {imageUrl, meta}}
 ```
 
 2. Queue
