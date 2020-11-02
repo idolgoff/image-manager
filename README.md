@@ -8,6 +8,7 @@ Service for image managing (download, save, serve, delete)
 - [x] Add queue management
 - [ ] Add queue UI
 - [ ] Add tune settings (concurency, rateLimit and so on)
+- [ ] Extract config from code
 
 ## Start params
 Сonfig 
