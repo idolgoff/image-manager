@@ -41,9 +41,9 @@ Use api endpoint
 Input params as FormData
 
 3. Processing
-3.1. Download
-3.2. Manipulate
-3.3. Store
+    1. Download
+    2. Manipulate
+    3. Store
 
 4. Callback
 
