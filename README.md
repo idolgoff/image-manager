@@ -48,12 +48,12 @@ Input params as FormData
 4. Callback
 
 ## API Interface
-* /queue
-- add-images
-- list
-- remove ?query
-* /images
-- remove ?query
+- /queue
+    - add-images
+    - list
+    - remove ?query
+- /images
+    - remove ?query
 
 ## Core modules
 - [fastify](https://github.com/fastify/fastify) - http server
