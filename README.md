@@ -8,6 +8,7 @@ Service for image managing (download, save, serve, delete)
 - [x] Add queue management
 - [ ] Add queue UI
 - [ ] Add tune settings (concurency, rateLimit and so on)
+- [ ] Extract config from code
 
 ## Start params
 Сonfig 
@@ -27,9 +28,9 @@ Image manager is used for download, process and store images with given urls. It
 
 **prepare data -> 2) queue -> 3) processing (download -> manipulate -> store) -> 4) callback**
 
-1. Input params format (FormData)
+1. Input params format (JSON)
 ```
-{data: {imgUrls, meta}, callback: (err, data) => {}}
+{data: {imageUrl, meta}}
 ```
 
 2. Queue
@@ -40,19 +41,19 @@ Use api endpoint
 Input params as FormData
 
 3. Processing
-3.1. Download
-3.2. Manipulate
-3.3. Store
+    1. Download
+    2. Manipulate
+    3. Store
 
 4. Callback
 
 ## API Interface
 - /queue
--- add-images
--- list
--- remove ?query
+    - add-images
+    - list
+    - remove ?query
 - /images
--- remove ?query
+    - remove ?query
 
 ## Core modules
 - [fastify](https://github.com/fastify/fastify) - http server
