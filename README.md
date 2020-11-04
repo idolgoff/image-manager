@@ -9,6 +9,7 @@ Service for image managing (download, save, serve, delete)
 - [ ] Add queue UI
 - [ ] Add tune settings (concurency, rateLimit and so on)
 - [ ] Extract config from code
+- [ ] Cover with tests
 
 ## Start params
 Сonfig 
@@ -49,12 +50,16 @@ Input params as FormData
 4. Callback
 
 ## API Interface
+/v1/ prefix
 - /queue
-    - add-images
-    - list
-    - remove ?query
+    - /image
+        - POST add new image job
+        - GET get job status
+    - /images
+        - POST add images job
+        - GET get job status
 - /images
-    - remove ?query
+    - remove ?query ???
 
 ## Core modules
 - [fastify](https://github.com/fastify/fastify) - http server
