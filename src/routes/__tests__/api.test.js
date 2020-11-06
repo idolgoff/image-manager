@@ -3,7 +3,7 @@ const build = require('../../app');
 describe('Test service api', () => {
     let app;
 
-    beforeEach(() => {
+    beforeAll(() => {
         app = build();
     });
 
@@ -35,12 +35,35 @@ describe('Test service api', () => {
                 method: 'POST',
                 url: '/v1/queue/image',
                 payload: {
-                    imageUrl: 'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg'
-                    // imageUrl: 'http://ya.ru',
+                    imageUrl: 'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg',
+                    webHook: '/test-webhook',
                 },
             });
             expect(response.statusCode).toBe(200);
-            expect(response.body).toMatch('jobId');
+            expect(response.json()).toHaveProperty('jobId');
+        });
+    });
+
+    describe('POST /v1/queue/images', () => {
+        it('should return 400 if missing params', async () => {
+            expect.assertions(1);
+            expect((await app.inject({
+                method: 'POST',
+                url: '/v1/queue/images',
+            })).statusCode).toBe(400);
+        });
+
+        it('should return 200 params are ok', async () => {
+            expect.assertions(2);
+            const response = await app.inject({
+                method: 'POST',
+                url: '/v1/queue/images',
+                payload: {
+                    imageUrls: ['https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg'],
+                },
+            });
+            expect(response.statusCode).toBe(200);
+            expect(response.json()).toHaveProperty('jobId');
         });
     });
 });

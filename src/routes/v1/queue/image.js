@@ -34,8 +34,10 @@ const handlePostImage = function(req, res) {
     res.send({jobId});
 };
 
-const handleGetImage = function(req, res) {
-    res.send('TBD');
+const handleGetImage = async function(req, res) {
+    const {jobId} = req.params;
+    const result = await imageQueue.getJobState(jobId);
+    res.send(result);
 };
 
 module.exports = function(fastify, opts, done) {

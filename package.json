@@ -2,6 +2,7 @@
   "scripts": {
     "start": "nodemon ./src/index.js",
     "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --detectOpenHandles"
   },
   "dependencies": {
