@@ -1,9 +1,6 @@
 const {v4: uuidv4} = require('uuid');
 
-const download = require('./download');
-const manipulate = require('./manipulate');
-const store = require('./store');
-
+const {download, manipulate, store} = require('./steps');
 const config = require('../config');
 
 module.exports = async (data) => {
@@ -15,10 +12,15 @@ module.exports = async (data) => {
     const {sets, mainDir} = config;
 
     // Download file
-    const file = await download(imageUrl);
+    let file;
+    try {
+        file = await download(imageUrl);
+    } catch (err) {
+        throw new Error(err);
+    }
     const filename = `${uuidv4()}.jpg`;
 
-    return Promise.all(sets.map(async ({size, subPath}) => {
+    const paths = await Promise.all(sets.map(async ({size, subPath}) => {
         // Process
         const processedJpeg = await manipulate(file, size);
         const path = `${mainDir}/${subPath}/${filename}`;
@@ -27,6 +29,12 @@ module.exports = async (data) => {
         await store(processedJpeg, path);
 
         // Return object
-        return {...data, path, filename};
+        return `${subPath}/${filename}`;
     }));
+
+    return Promise.resolve({
+        ...data,
+        filename,
+        paths,
+    });
 };
