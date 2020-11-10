@@ -1,9 +1,10 @@
 const {v4: uuid} = require('uuid');
-const {imageQueue, imagesQueue} = require('../index');
+const {imageQueue} = require('../index');
 const jobPossibleStates = [
     'completed', 'failed', 'delayed', 'active', 'waiting', 'paused', 'stuck', 'null',
 ];
 
+const wrongFormatUrl = 'https://www.learningcontainer.com/wp-content/uploads/2020/04/sample-text-file.txt';
 const jobData = {
     imageUrl: 'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg',
     meta: {
@@ -12,7 +13,12 @@ const jobData = {
     },
 };
 
-describe('Job queues', () => {
+describe('Job image queues', () => {
+    beforeAll(async () => {
+        // Clear all jobs
+        await imageQueue.clean();
+    });
+
     describe('Image add', () => {
         it('Should return Promise with undefined jobId', async () => {
             const addJob = imageQueue.add(jobData);
@@ -28,7 +34,7 @@ describe('Job queues', () => {
     });
 
     describe('Image get', () => {
-        it('Should return job status by jobId', async () => {
+        it('Should return job state by jobId', async () => {
             const jobId = uuid();
             await imageQueue.add(jobData, jobId);
             const jobState = await imageQueue.getJobState(jobId);
@@ -44,20 +50,12 @@ describe('Job queues', () => {
             expect(jobProgress).toBeLessThanOrEqual(100);
         });
 
-        it('Should return job progress by jobId', async () => {
-            const jobId = uuid();
-            await imageQueue.add(jobData, jobId);
-
-            const jobProgress = await imageQueue.getJobProgress(jobId);
-            expect(jobProgress).toBeGreaterThanOrEqual(0);
-            expect(jobProgress).toBeLessThanOrEqual(100);
-        });
-
-        it('Should return resolve with data processed', async () => {
+        it('Should resolve with data processed', async () => {
             const jobId = uuid();
             await imageQueue.add(jobData, jobId);
 
             const result = await imageQueue.getJobFinished(jobId);
+
             expect(result).toHaveProperty('filename');
             expect(result.filename.length).not.toEqual(0);
 
@@ -92,7 +90,7 @@ describe('Job queues', () => {
             expect.assertions(1);
 
             const jobId = uuid();
-            const imageUrl = 'https://www.learningcontainer.com/wp-content/uploads/2020/04/sample-text-file.txt';
+            const imageUrl = wrongFormatUrl;
             const wrongJobData = {imageUrl};
             await imageQueue.add(wrongJobData, jobId);
 

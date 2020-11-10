@@ -13,5 +13,6 @@ module.exports = {
     'rules': {
         'indent': ['error', 4],
         'max-len': ['error', {'code': 120}],
+        'no-undef': 'error',
     },
 };
