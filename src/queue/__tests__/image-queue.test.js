@@ -13,35 +13,41 @@ const jobData = {
     },
 };
 
-describe('Job image queues', () => {
+
+describe('job image queues', () => {
+    // eslint-disable-next-line jest/no-hooks
     beforeAll(async () => {
         // Clear all jobs
         await imageQueue.clean();
     });
 
-    describe('Image add', () => {
-        it('Should return Promise with undefined jobId', async () => {
+    describe('image add', () => {
+        it('should return Promise with undefined jobId', async () => {
+            expect.assertions(2);
             const addJob = imageQueue.add(jobData);
             await expect(addJob).resolves.toHaveProperty('opts.jobId', undefined);
             await expect(addJob).resolves.toHaveProperty('id');
         });
 
-        it('Should return Promise with custom jobId', async () => {
+        it('should return Promise with custom jobId', async () => {
+            expect.assertions(2);
             const jobId = uuid();
             const addJob = imageQueue.add(jobData, jobId);
             await expect(addJob).resolves.toHaveProperty('id', jobId);
         });
     });
 
-    describe('Image get', () => {
-        it('Should return job state by jobId', async () => {
+    describe('image get', () => {
+        it('should return job state by jobId', async () => {
+            expect.assertions(1);
             const jobId = uuid();
             await imageQueue.add(jobData, jobId);
             const jobState = await imageQueue.getJobState(jobId);
             expect(jobPossibleStates).toContain(jobState);
         });
 
-        it('Should return job progress by jobId', async () => {
+        it('should return job progress by jobId', async () => {
+            expect.assertions(2);
             const jobId = uuid();
             await imageQueue.add(jobData, jobId);
 
@@ -50,43 +56,45 @@ describe('Job image queues', () => {
             expect(jobProgress).toBeLessThanOrEqual(100);
         });
 
-        it('Should resolve with data processed', async () => {
+        it('should resolve with data processed', async () => {
+            expect.assertions(3);
             const jobId = uuid();
             await imageQueue.add(jobData, jobId);
 
             const result = await imageQueue.getJobFinished(jobId);
 
             expect(result).toHaveProperty('filename');
-            expect(result.filename.length).not.toEqual(0);
+            expect(result.filename).not.toHaveLength(0);
 
             const jobState = await imageQueue.getJobState(jobId);
             expect(jobState).toBe('completed');
         });
 
-        it('Should throw Wrong job params error and be failed', async () => {
+        it('should throw Wrong job params error and be failed', async () => {
+            expect.assertions(2);
             const jobId = uuid();
             const wrongJobData = {};
             await imageQueue.add(wrongJobData, jobId);
 
             await expect(imageQueue.getJobFinished(jobId))
                 .rejects
-                .toThrowError('Wrong job params');
+                .toThrow('Wrong job params');
 
             const jobState = await imageQueue.getJobState(jobId);
             expect(jobState).toBe('failed');
         });
 
-        it('Should throw Not found error', async () => {
+        it('should throw Not found error', async () => {
             expect.assertions(1);
 
             const jobId = uuid();
             const wrongJobData = {imageUrl: 'http://ya.ru/404'};
             await imageQueue.add(wrongJobData, jobId);
 
-            await expect(imageQueue.getJobFinished(jobId)).rejects.toThrowError('Not Found');
+            await expect(imageQueue.getJobFinished(jobId)).rejects.toThrow('Not Found');
         });
 
-        it('Should throw Input buffer contains unsupported image format error', async () => {
+        it('should throw Input buffer contains unsupported image format error', async () => {
             expect.assertions(1);
 
             const jobId = uuid();
@@ -96,7 +104,7 @@ describe('Job image queues', () => {
 
             await expect(imageQueue.getJobFinished(jobId))
                 .rejects
-                .toThrowError('Input buffer contains unsupported image format');
+                .toThrow('Input buffer contains unsupported image format');
         });
     });
 });

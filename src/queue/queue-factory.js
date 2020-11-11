@@ -4,8 +4,14 @@ const {redis} = require('../config');
 
 /**
  * @callback jobCompleteCallback
- * @param {job} jobPointer
- * @param {result} responseMessage
+ * @param {object} job
+ * @param {string} result
+ */
+
+/**
+ * @callback jobProgressCallback
+ * @param {string} jobId
+ * @param {number} progress 0..1
  */
 
 const queueFactory = (queueType = 'common-queue') => {
@@ -66,6 +72,13 @@ const queueFactory = (queueType = 'common-queue') => {
          */
         onComplete: (cb) => {
             queue.on('completed', cb);
+        },
+
+        /**
+         * @param {jobProgressCallback} cb
+         */
+        onProgress: (cb) => {
+            queue.on('progress', cb);
         },
     });
 };

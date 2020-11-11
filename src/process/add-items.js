@@ -1,6 +1,6 @@
 const {processItem} = require('./complex/process-item');
 
-const getProgress = (arrReady, arrTotal) => Math.round(arrReady.length / arrTotal * 100);
+const getProgress = (arrReady, arrTotal) => Math.round(arrReady.length / arrTotal.length * 100);
 
 const addItems = async (job) => {
     const {data} = job;
