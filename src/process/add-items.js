@@ -1,18 +1,6 @@
-const {v4: uuidv4} = require('uuid');
+const {processItem} = require('./complex/process-item');
 
-const {download, manipulate, store} = require('./units');
-const config = require('../config');
-
-const getProgress = (arrReady, arrTotal) => Math.round(arrReady.length / arrTotal * 100)
-
-const processImage = (url) => {
-    const {sets, mainDir} = config;
-
-}
-
-const processItem = async (item) => {
-
-}
+const getProgress = (arrReady, arrTotal) => Math.round(arrReady.length / arrTotal * 100);
 
 const addItems = async (job) => {
     const {data} = job;
