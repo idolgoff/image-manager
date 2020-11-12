@@ -30,7 +30,7 @@ describe('job image queues', () => {
         });
 
         it('should return Promise with custom jobId', async () => {
-            expect.assertions(2);
+            expect.assertions(1);
             const jobId = uuid();
             const addJob = imageQueue.add(jobData, jobId);
             await expect(addJob).resolves.toHaveProperty('id', jobId);

@@ -28,9 +28,9 @@ describe('job items queues', () => {
     beforeAll(async () => {
         // Clear all jobs
         await itemsQueue.clean();
-        itemsQueue.onProgress((jobId, progress) => {
-            console.log('jobId: ', jobId, 'progress: ', progress * 100);
-        });
+        // itemsQueue.onProgress((jobId, progress) => {
+        //     console.log('jobId: ', jobId, 'progress: ', progress * 100);
+        // });
     });
 
     describe('items add', () => {

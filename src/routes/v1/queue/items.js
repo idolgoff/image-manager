@@ -8,17 +8,16 @@ itemsQueue.onComplete((job, result) => {
     if (webHook) callWebHook(webHook, result);
 });
 
-
-// const item = {
-//     type: 'object',
-//     properties: {
-//         id: 'string',
-//         imageUrls: {
-//             type: 'array',
-//             items: {type: 'string'},
-//         },
-//     },
-// };
+const item = {
+    type: 'object',
+    // properties: {
+    //     id: 'string',
+    //     imageUrls: {
+    //         type: 'array',
+    //         items: {type: 'string'},
+    //     },
+    // },
+};
 
 const postImagesSchema = {
     body: {
@@ -27,7 +26,7 @@ const postImagesSchema = {
         properties: {
             items: {
                 type: 'array',
-                items: {type: 'object'},
+                items: item,
             },
             meta: {type: ['string', 'object']},
             webHook: {type: 'string'},
