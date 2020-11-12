@@ -1,13 +1,14 @@
 const build = require('../../app');
 
-describe('Test service api', () => {
+describe('test service api', () => {
     let app;
 
+    // eslint-disable-next-line jest/no-hooks
     beforeAll(() => {
         app = build();
     });
 
-    describe('GET /', () => {
+    describe('request GET /', () => {
         it('should return 404', async () => {
             expect.assertions(1);
 
@@ -20,7 +21,7 @@ describe('Test service api', () => {
         });
     });
 
-    describe('POST /v1/queue/image', () => {
+    describe('reuest POST /v1/queue/image', () => {
         it('should return 400 if missing params', async () => {
             expect.assertions(1);
             expect((await app.inject({
@@ -44,12 +45,12 @@ describe('Test service api', () => {
         });
     });
 
-    describe('POST /v1/queue/images', () => {
+    describe('request POST /v1/queue/items', () => {
         it('should return 400 if missing params', async () => {
             expect.assertions(1);
             expect((await app.inject({
                 method: 'POST',
-                url: '/v1/queue/images',
+                url: '/v1/queue/items',
             })).statusCode).toBe(400);
         });
 
@@ -57,9 +58,11 @@ describe('Test service api', () => {
             expect.assertions(2);
             const response = await app.inject({
                 method: 'POST',
-                url: '/v1/queue/images',
+                url: '/v1/queue/items',
                 payload: {
-                    imageUrls: ['https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg'],
+                    items: [{
+                        imageUrls: ['https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg'],
+                    }],
                 },
             });
             expect(response.statusCode).toBe(200);

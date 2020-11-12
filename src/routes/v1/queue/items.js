@@ -1,21 +1,32 @@
 const {v4: uuid} = require('uuid');
 
-const {imagesQueue} = require('../../../queue');
+const {itemsQueue} = require('../../../queue');
 const callWebHook = require('../../../call-web-hook');
 
-imagesQueue.onComplete((job, result) => {
+itemsQueue.onComplete((job, result) => {
     const {webHook} = job.data;
     if (webHook) callWebHook(webHook, result);
 });
 
+const item = {
+    type: 'object',
+    // properties: {
+    //     id: 'string',
+    //     imageUrls: {
+    //         type: 'array',
+    //         items: {type: 'string'},
+    //     },
+    // },
+};
+
 const postImagesSchema = {
     body: {
         type: 'object',
-        required: ['imageUrls'],
+        required: ['items'],
         properties: {
-            imageUrls: {
+            items: {
                 type: 'array',
-                items: {type: 'string'},
+                items: item,
             },
             meta: {type: ['string', 'object']},
             webHook: {type: 'string'},
@@ -33,14 +44,14 @@ const postImagesSchema = {
 
 const handlePostImages = function(req, res) {
     const jobId = uuid();
-    imagesQueue.add(req.body, jobId);
+    itemsQueue.add(req.body, jobId);
     res.send({jobId});
 };
 
 const handleGetItem = function(req, res) {};
 
 module.exports = function(fastify, opts, done) {
-    fastify.post('/images', {schema: postImagesSchema}, handlePostImages);
-    fastify.get('/images', handleGetItem);
+    fastify.post('/items', {schema: postImagesSchema}, handlePostImages);
+    fastify.get('/items', handleGetItem);
     done();
 };

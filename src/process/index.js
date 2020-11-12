@@ -1,4 +1,7 @@
-const add = require('./add');
+const {addImage} = require('./add-image');
+const {addItems} = require('./add-items');
+
 module.exports = {
-    add,
+    addImage,
+    addItems,
 };
