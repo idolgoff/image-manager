@@ -9,7 +9,7 @@ module.exports = {
         },
     }],
     redis: {
-        host: 'localhost',
+        host: 'redis',
         port: 32768,
     },
 };

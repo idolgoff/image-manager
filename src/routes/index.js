@@ -5,6 +5,10 @@ const v1 = {
 };
 
 const registerRoutes = (app) => {
+    app.get('/', (req, res) => {
+        res.send({ok: true});
+    });
+
     v1.queueRoutes.forEach((route) => {
         app.register(route, {prefix: '/v1/queue'});
     });
