@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  redis:
+    image: redis:5-alpine
+    container_name: im_redis
+    restart: unless-stopped
+    networks:
+      - internal
+
+  image-manager:
+    image: pachimuta/imagemanager
+    container_name: imagemanager
+    restart: unless-stopped
+    ports:
+      # HOST:CONTAINER
+      - 3000:3000
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: im_redis
+      MAIN_DIR: /tmp
+    volumes:
+      - /Users/idolgoff/Projects/tmp:/tmp
+      - ./config.js:/usr/src/app/src/config.js
+    networks:
+      - internal
+      - external
+
+networks:
+  external:
+    driver: bridge
+  internal:
+    driver: bridge
