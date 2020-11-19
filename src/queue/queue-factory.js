@@ -56,6 +56,10 @@ const queueFactory = (queueType = 'common-queue') => {
             const job = await queue.getJob(jobId);
             return job.finished();
         },
+        getJobFailedReason: async (jobId) => {
+            const job = await queue.getJob(jobId);
+            return job.failedReason || '';
+        },
 
         /**
          * Clean queue

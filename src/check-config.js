@@ -14,7 +14,6 @@ module.exports = (() => {
     console.log('Check configuration');
     if (!config.mainDir) genConfigError('mainDir isn\'t set');
     if (config.mainDir.match(/\/$/)) genConfigError('No trailing slash in mainDir');
-    if (config.tmpDir && config.tmpDir.match(/\/$/)) genConfigError('No trailing slash in tmpDir');
     if (!config.sets || !config.sets.length) genConfigError('sets section is miscofigured');
     config.sets.forEach((set, i) => {
         if (!set.type) genConfigError(`Sets[${i}] type isn't set`);

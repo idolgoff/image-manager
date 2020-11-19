@@ -48,7 +48,18 @@ const handlePostImages = function(req, res) {
     res.send({jobId});
 };
 
-const handleGetItem = function(req, res) {};
+const handleGetItem = async function(req, res) {
+    const {jobId} = req.query;
+    const [result, progress] = await Promise.all([
+        itemsQueue.getJobState(jobId),
+        itemsQueue.getJobProgress(jobId),
+    ]);
+    if (result === 'failed') {
+        const reason = await itemsQueue.getJobFailedReason(jobId);
+        res.send({result, reason, progress});
+    }
+    res.send({result, progress});
+};
 
 module.exports = function(fastify, opts, done) {
     fastify.post('/items', {schema: postImagesSchema}, handlePostImages);

@@ -7,7 +7,7 @@ const server = require('./app')({
     },
 });
 
-server.listen(3000, (err, address) => {
+server.listen(3000, '0.0.0.0', (err, address) => {
     if (err) {
         console.log(err);
         process.exit(1);
