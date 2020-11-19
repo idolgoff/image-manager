@@ -1,6 +1,34 @@
 # Image-Manager
 Service for image managing (download, save, serve, delete)
 
+## Start with docker-compose
+1. It needs running redis
+2. It needs config file
+See example https://github.com/idolgoff/image-manager/tree/main/docker
+
+## How to use it
+### Single image mode
+POST /v1/queue/image
+```
+body: {
+	"imageUrl": "https://www.silverdisc.co.uk/sites/default/files/sd_importer/lion_webp_10.webp",
+	"webHook": "http://ya.ru"
+}
+```
+it returns 
+```
+{
+    "jobId": "3473c73e-720b-48bf-884f-983099fbc181"
+}
+```
+GET /v1/queue/image?jobId=3473c73e-720b-48bf-884f-983099fbc181
+returns job status
+```
+{
+    "result": "completed"
+}
+```
+
 ## ToDo
 - [x] Main processing pipeline
 - [x] Check config at start time (reduce costs at runtime)
@@ -11,7 +39,7 @@ Service for image managing (download, save, serve, delete)
 - [ ] Extract config from code
 - [ ] Cover with tests
 
-## Start params
+## Params
 Сonfig 
 ```javascript
 {
