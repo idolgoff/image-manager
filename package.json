@@ -3,6 +3,7 @@
     "start": "nodemon ./src/index.js",
     "test": "jest --detectOpenHandles",
     "docker:build": "docker build -t pachimuta/imagemanager:latest -f docker/Dockerfile .",
+    "docker:publish": "docker push pachimuta/imagemanager",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --detectOpenHandles"
   },
