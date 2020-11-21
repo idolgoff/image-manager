@@ -5,12 +5,7 @@ const {sets, mainDir} = require('../../config');
 
 const processImage = async (imageUrl) => {
     // Download file
-    let file;
-    try {
-        file = await download(imageUrl);
-    } catch (err) {
-        throw new Error(err);
-    }
+    const file = await download(imageUrl);
     const filename = `${uuidv4()}.jpg`;
 
     const paths = await Promise.all(sets.map(async ({size, subPath}) => {
