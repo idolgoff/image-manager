@@ -37,16 +37,22 @@ const handlePostImage = function(req, res) {
 
 const handleGetImage = async function(req, res) {
     const {jobId} = req.query;
-    const jobState = await imageQueue.getJobState(jobId);
-    if (jobState === 'failed') {
-        const reason = await imageQueue.getJobFailedReason(jobId);
-        res.send({result: jobState, reason});
+    try {
+        const jobState = await imageQueue.getJobState(jobId);
+        if (jobState === 'failed') {
+            const reason = await imageQueue.getJobFailedReason(jobId);
+            res.send({result: jobState, reason});
+            return;
+        }
+        if (jobState === 'completed') {
+            const payload = await imageQueue.getJobFinished(jobId);
+            res.send({result: jobState, payload});
+            return;
+        }
+        res.send({result: jobState});
+    } catch (error) {
+        res.send({result: 'error', error});
     }
-    if (jobState === 'completed') {
-        const payload = await imageQueue.getJobFinished(jobId);
-        res.send({result: jobState, payload});
-    }
-    res.send({result: jobState});
 };
 
 module.exports = function(fastify, opts, done) {

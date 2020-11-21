@@ -50,15 +50,21 @@ const handlePostImages = function(req, res) {
 
 const handleGetItem = async function(req, res) {
     const {jobId} = req.query;
-    const [result, progress] = await Promise.all([
+    const [jobState, progress] = await Promise.all([
         itemsQueue.getJobState(jobId),
         itemsQueue.getJobProgress(jobId),
     ]);
-    if (result === 'failed') {
+    if (jobState === 'failed') {
         const reason = await itemsQueue.getJobFailedReason(jobId);
-        res.send({result, reason, progress});
+        res.send({result: jobState, reason, progress});
+        return;
     }
-    res.send({result, progress});
+    if (jobState === 'completed') {
+        const payload = await itemsQueue.getJobFinished(jobId);
+        res.send({result: jobState, payload});
+        return;
+    }
+    res.send({result: jobState, progress});
 };
 
 module.exports = function(fastify, opts, done) {
