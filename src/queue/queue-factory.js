@@ -46,6 +46,10 @@ const queueFactory = (queueType = 'common-queue') => {
          */
         getJobState: async (jobId) => {
             const job = await queue.getJob(jobId);
+            if (!job) {
+                console.log({job});
+                throw new Error(`There is no job ${jobId} in the queue`);
+            }
             return job.getState();
         },
         getJobProgress: async (jobId) => {
@@ -60,7 +64,11 @@ const queueFactory = (queueType = 'common-queue') => {
             const job = await queue.getJob(jobId);
             return job.failedReason || '';
         },
-
+        getJobLogs: async (jobId) => {
+            console.log(await (queue.getJobCounts()));
+            console.log((await queue.getJobs(['completed', 'failed'])).map((j) => j.opts));
+            return queue.getJobLogs(jobId);
+        },
         /**
          * Clean queue
          * https://github.com/OptimalBits/bull/blob/develop/REFERENCE.md#queueclean

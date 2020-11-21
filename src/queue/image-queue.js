@@ -11,7 +11,6 @@ imageQueue.registerProcessor({
     processor: addImageProcessor,
 });
 
-console.log('Import imageQueue');
 module.exports = {
     imageQueue,
 };
