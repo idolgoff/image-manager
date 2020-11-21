@@ -12,7 +12,7 @@ const addItems = async (job) => {
     const processedItems = [];
 
     // Process item by item setting jobs
-    await Promise.all(items.map(async (item) => {
+    await Promise.allSettled(items.map(async (item) => {
         const processedItem = await processItem(item);
         processedItems.push(processedItem);
         job.progress(getProgress(processedItems, data.items));
