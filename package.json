@@ -2,13 +2,13 @@
   "version": "0.1.0",
   "scripts": {
     "start": "nodemon ./src/index.js",
-    "test": "jest --detectOpenHandles",
     "docker:build": "docker build -t pachimuta/imagemanager:latest -f docker/Dockerfile .",
     "docker:publish": "docker push pachimuta/imagemanager",
     "git:ammend": "git commit --amend --no-edit",
     "changelog:major": "npm version major && changelog -M && git add CHANGELOG.md && npm run git:ammend",
     "changelog:minor": "npm version minor && changelog -m && git add CHANGELOG.md && npm run git:ammend",
     "changelog:patch": "npm version patch && changelog -p && git add CHANGELOG.md && npm run git:ammend",
+    "test": "jest --detectOpenHandles",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --detectOpenHandles"
   },
