@@ -1,3 +1,5 @@
+#### 0.1.3 (2020-11-21)
+
 ##### New Features
 
 * **processing:**  all items status with allSettled (89b6008c)
