@@ -22,15 +22,32 @@ const jobData = {
     },
 };
 
+const jobDataMixed = {
+    items: [{
+        id: '0',
+        imageUrls: [
+            'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpe',
+            'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg',
+        ],
+    },
+    {
+        id: '1',
+        imageUrls: [
+            'https://miro.medium.com/max/2880/1*Ar1k9HjU8Rhq1tqA6GEcdg.jpeg',
+        ],
+    }],
+    meta: {
+        'a': true,
+        'b': false,
+    },
+};
+
 
 describe('job items queues', () => {
     // eslint-disable-next-line jest/no-hooks
     beforeAll(async () => {
         // Clear all jobs
         await itemsQueue.clean();
-        // itemsQueue.onProgress((jobId, progress) => {
-        //     console.log('jobId: ', jobId, 'progress: ', progress * 100);
-        // });
     });
 
     describe('items add', () => {
@@ -51,7 +68,7 @@ describe('job items queues', () => {
         });
     });
 
-    describe('items get', () => {
+    describe('items get job status', () => {
         it('should throw Wrong job params error and be failed', async () => {
             expect.assertions(2);
 
@@ -68,13 +85,25 @@ describe('job items queues', () => {
         });
 
         it('should contain same items number in response', async () => {
-            expect.assertions(1);
+            expect.assertions(2);
 
             const jobId = uuid();
             await itemsQueue.add(jobData, jobId);
 
             const processed = await itemsQueue.getJobFinished(jobId);
             expect(processed).toHaveProperty('items');
+            expect(processed.items).toHaveLength(jobData.items.length);
+        });
+
+        it('should contain same items number in response even if some of them have been failed', async () => {
+            expect.assertions(2);
+
+            const jobId = uuid();
+            await itemsQueue.add(jobDataMixed, jobId);
+
+            const processed = await itemsQueue.getJobFinished(jobId);
+            expect(processed).toHaveProperty('items');
+            expect(processed.items).toHaveLength(jobData.items.length);
         });
     });
 });
