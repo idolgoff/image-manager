@@ -5,7 +5,6 @@ const callWebHook = require('../../../call-web-hook');
 
 imageQueue.onComplete((job, result) => {
     const {webHook} = job.data;
-    // console.log('Webhook called', result);
     if (webHook) callWebHook(webHook, result);
 });
 
